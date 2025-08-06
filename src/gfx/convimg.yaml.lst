@@ -1,0 +1,7 @@
+global_palette.h
+global_palette.c
+spamton.h
+spamton.c
+dialogue.h
+dialogue.c
+gfx.h
