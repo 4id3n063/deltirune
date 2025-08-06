@@ -1,7 +1,7 @@
 obj/src/dialog_manager.c.bc: src/dialog_manager.c src/dialog_manager.h \
-  /home/aiden/cedevbin/include/stdbool.h \
   /home/aiden/cedevbin/include/tice.h \
   /home/aiden/cedevbin/include/sys/basicusb.h \
+  /home/aiden/cedevbin/include/stdbool.h \
   /home/aiden/cedevbin/include/stdint.h \
   /home/aiden/cedevbin/include/cdefs.h \
   /home/aiden/cedevbin/include/sys/lcd.h \
@@ -26,4 +26,8 @@ obj/src/dialog_manager.c.bc: src/dialog_manager.c src/dialog_manager.h \
   /home/aiden/cedevbin/include/stdlib.h src/gfx/gfx.h \
   src/gfx/global_palette.h src/gfx/spamton.h src/gfx/dialogue.h \
   src/gfx/wall.h src/gfx/multifloor.h src/gfx/placeholder.h \
-  /home/aiden/cedevbin/include/keypadc.h
+  src/gfx/kriswalk_down1.h src/gfx/kriswalk_down2.h \
+  src/gfx/kriswalk_left1.h src/gfx/kriswalk_left2.h \
+  src/gfx/kriswalk_up1.h src/gfx/kriswalk_up2.h \
+  /home/aiden/cedevbin/include/keypadc.h \
+  /home/aiden/cedevbin/include/string.h

@@ -4,17 +4,21 @@
 #include "gfx/gfx.h"
 #include <keypadc.h>
 #include <stdbool.h>
+#include <string.h>
 
-// Internal state
-static bool active = false;
+
+static bool active = false; // need to add here
 static int currentPage = 0;
 static int totalPages = 0;
 static const char **pages = NULL;
 static bool last2nd = false;
 static uint16_t delayCounter = 0;
-static uint16_t pageAdvanceCounter = 0; // New counter for page advance delay
-static const uint16_t DIALOG_DELAY_FRAMES = 20; // 20 frames (~1/3 second at ~60 FPS)
-static const uint16_t PAGE_ADVANCE_DELAY = 10; // 10 frames (~1/6 second at ~60 FPS)
+static uint16_t pageAdvanceCounter = 0;
+static const uint16_t DIALOG_DELAY_FRAMES = 20; 
+static const uint16_t PAGE_ADVANCE_DELAY = 10; 
+static uint16_t charIndex = 0; 
+static uint16_t charDelayCounter = 0; 
+static const uint16_t CHAR_DELAY_FRAMES = 1; 
 
 void dialog_init(void) {
     active = false;
@@ -24,10 +28,12 @@ void dialog_init(void) {
     last2nd = false;
     delayCounter = 0;
     pageAdvanceCounter = 0;
+    charIndex = 0;
+    charDelayCounter = 0;
 }
 
 bool dialog_can_start(void) {
-    // Check if delay period has passed
+
     return !active && delayCounter == 0;
 }
 
@@ -38,15 +44,17 @@ void dialog_start(const char **dialogPages, int numPages) {
     totalPages = numPages;
     currentPage = 0;
     active = true;
-    last2nd = true; // Assume key is pressed to avoid immediate advance
-    pageAdvanceCounter = PAGE_ADVANCE_DELAY; // Start with delay to prevent instant advance
+    last2nd = true; 
+    pageAdvanceCounter = PAGE_ADVANCE_DELAY; 
+    charIndex = 0; 
+    charDelayCounter = 0;
 }
 
 bool dialog_update(bool now2nd) {
-    // If in delay period, ignore all inputs and just count down
+
     if (!active && delayCounter > 0) {
         delayCounter--;
-        last2nd = now2nd; // Track key state
+        last2nd = now2nd;
         return false;
     }
 
@@ -55,21 +63,37 @@ bool dialog_update(bool now2nd) {
         return false;
     }
 
-    // Handle page advance delay
+
     if (pageAdvanceCounter > 0) {
         pageAdvanceCounter--;
-        last2nd = now2nd; // Track key state
+        last2nd = now2nd; 
         return true;
     }
 
-    // Advance page or close dialog on 2nd press (edge)
+    // Update typewriter effect
+    if (charIndex < strlen(pages[currentPage])) {
+        charDelayCounter++;
+        if (charDelayCounter >= CHAR_DELAY_FRAMES) {
+            charIndex++; 
+            charDelayCounter = 0; // Reset delay counter
+        }
+    }
+
+
     if (now2nd && !last2nd) {
-        currentPage++;
-        if (currentPage >= totalPages) {
-            active = false;
-            delayCounter = DIALOG_DELAY_FRAMES; // Start 20-frame delay
+
+        if (charIndex < strlen(pages[currentPage])) {
+            charIndex = strlen(pages[currentPage]);
         } else {
-            pageAdvanceCounter = PAGE_ADVANCE_DELAY; // Reset page advance delay
+            currentPage++;
+            if (currentPage >= totalPages) {
+                active = false;
+                delayCounter = DIALOG_DELAY_FRAMES; // Start 20-frame delay
+            } else {
+                pageAdvanceCounter = PAGE_ADVANCE_DELAY; 
+                charIndex = 0; 
+                charDelayCounter = 0;
+            }
         }
     }
 
@@ -86,8 +110,10 @@ void dialog_draw(void) {
     const char *text = pages[currentPage];
     int lineHeight = 10;
     int y = 165;
+    int currentChar = 0;
 
-    for (const char *p = text; *p; p++) {
+
+    for (const char *p = text; *p && currentChar < charIndex; p++, currentChar++) {
         if (*p == '\n') {
             y += lineHeight;
             gfx_SetTextXY(40, y);

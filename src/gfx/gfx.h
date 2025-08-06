@@ -12,6 +12,12 @@ extern "C" {
 #include "wall.h"
 #include "multifloor.h"
 #include "placeholder.h"
+#include "kriswalk_down1.h"
+#include "kriswalk_down2.h"
+#include "kriswalk_left1.h"
+#include "kriswalk_left2.h"
+#include "kriswalk_up1.h"
+#include "kriswalk_up2.h"
 
 #ifdef __cplusplus
 }

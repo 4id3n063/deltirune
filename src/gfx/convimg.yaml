@@ -14,7 +14,13 @@ converts:
       - dialogue.png
       - wall.png
       - multifloor.png
-      - placeholder
+      - placeholder.png
+      - kriswalk_down1.png
+      - kriswalk_down2.png
+      - kriswalk_left1.png
+      - kriswalk_left2.png
+      - kriswalk_up1.png
+      - kriswalk_up2.png
 
 outputs:
   - type: c

@@ -12,6 +12,23 @@
             "compilerArgs": [
                 ""
             ]
+        },
+        {
+            "name": "ez80",
+            "includePath": [
+                "/home/aiden/cedevbin/include/"
+            ],
+            "defines": [],
+            "compilerPath": "/home/aiden/cedevbin/bin/ez80-clang",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerPathInCppPropertiesJson": "/home/aiden/cedevbin/bin/ez80-clang",
+            "mergeConfigurations": false,
+            "recursiveIncludes": {},
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            }
         }
     ],
     "version": 4

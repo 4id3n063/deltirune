@@ -26,4 +26,7 @@ obj/src/main.c.bc: src/main.c /home/aiden/cedevbin/include/tice.h \
   /home/aiden/cedevbin/include/keypadc.h src/gfx/gfx.h \
   src/gfx/global_palette.h src/gfx/spamton.h src/gfx/dialogue.h \
   src/gfx/wall.h src/gfx/multifloor.h src/gfx/placeholder.h \
-  src/dialog_manager.h
+  src/gfx/kriswalk_down1.h src/gfx/kriswalk_down2.h \
+  src/gfx/kriswalk_left1.h src/gfx/kriswalk_left2.h \
+  src/gfx/kriswalk_up1.h src/gfx/kriswalk_up2.h src/dialog_manager.h \
+  src/player.h /home/aiden/cedevbin/include/time.h

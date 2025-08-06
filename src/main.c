@@ -1,9 +1,12 @@
+// src/main.c
 #include <tice.h>
 #include <graphx.h>
 #include <keypadc.h>
 #include <ti/getcsc.h>
 #include "gfx/gfx.h"
 #include "dialog_manager.h"
+#include "player.h" 
+#include <time.h>
 
 const char *spamtonDialog[] = {
     "HELLO AGAIN OLD FRIEND.\n NICE TO SEE YOU AGAIN.",
@@ -18,17 +21,16 @@ const char *NPC1Dialog[] = {
     "IS THAT ALL THERE IS?",
     "I FEEL EMPTY."
 };
+
 int main(void) {
-    int x = 50, y = 50;
-    int speed;
-    const int playerW = 16;
-    const int playerH = 16;
+    Player player;
     const int spamtonX = 10;
     const int spamtonY = 10;
     const int NPC1X = 60;
     const int NPC1Y = 60;
 
     dialog_init();
+    player_init(&player, 50, 50);
 
     gfx_Begin();
     gfx_SetDrawBuffer();
@@ -39,29 +41,30 @@ int main(void) {
         bool now2nd = kb_IsDown(kb_Key2nd);
 
         if (!dialog_is_active() && !dialog_is_in_delay()) {
-            
-            speed = kb_IsDown(kb_KeyAlpha) ? 4 : 1;
-            if (kb_IsDown(kb_KeyLeft))  x -= speed;
-            if (kb_IsDown(kb_KeyRight)) x += speed;
-            if (kb_IsDown(kb_KeyUp))    y -= speed;
-            if (kb_IsDown(kb_KeyDown))  y += speed;
 
-           
+            player_update(&player,
+                          kb_IsDown(kb_KeyAlpha),
+                          kb_IsDown(kb_KeyLeft),
+                          kb_IsDown(kb_KeyRight),
+                          kb_IsDown(kb_KeyUp),
+                          kb_IsDown(kb_KeyDown));
+
+
             bool touchingNPC1 =
-                x < (NPC1X + spamton_width) &&
-                (x + playerW) > NPC1X &&
-                y < (NPC1Y + spamton_height) &&
-                (y + playerH) > NPC1Y;
+                player.x < (NPC1X + PLAYER_WIDTH) &&
+                (player.x + PLAYER_WIDTH) > NPC1X &&
+                player.y < (NPC1Y + PLAYER_HEIGHT) &&
+                (player.y + PLAYER_HEIGHT) > NPC1Y;
 
             if (touchingNPC1 && now2nd) {
                 dialog_start(NPC1Dialog, 2);
             }
 
             bool touchingSpamton =
-                x < (spamtonX + spamton_width) &&
-                (x + playerW) > spamtonX &&
-                y < (spamtonY + spamton_height) &&
-                (y + playerH) > spamtonY;
+                player.x < (spamtonX + PLAYER_WIDTH) &&
+                (player.x + PLAYER_WIDTH) > spamtonX &&
+                player.y < (spamtonY + PLAYER_HEIGHT) &&
+                (player.y + PLAYER_HEIGHT) > spamtonY;
 
             if (touchingSpamton && now2nd) {
                 dialog_start(spamtonDialog, 7);
@@ -70,19 +73,21 @@ int main(void) {
             dialog_update(now2nd);
         }
 
+
         gfx_FillScreen(10);
-        gfx_TransparentSprite(spamton, x, y);
+        player_draw(&player);
         gfx_TransparentSprite(spamton, spamtonX, spamtonY);
         gfx_TransparentSprite(placeholder, NPC1X, NPC1Y);
-
 
         if (dialog_is_active()) {
             dialog_draw();
         }
+
         gfx_SetTextXY(10, 10);
         gfx_SetTextFGColor(1);
-        gfx_PrintString("DELTIRUNE V0.02 -- MADE BY AIDEN");
-        
+        gfx_PrintString("DELTIRUNE V0.10 -- MADE BY AIDEN");
+        gfx_SetTextXY(10, 20);
+        gfx_PrintString("TEST SCREEN ONE");
 
         gfx_SwapDraw();
     }

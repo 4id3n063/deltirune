@@ -2,7 +2,7 @@
 # Makefile Options
 # ----------------------------
 
-NAME = DELT
+NAME = DTRN
 ICON = icon.png
 DESCRIPTION = "DELTIRUNE"
 COMPRESSED = YES

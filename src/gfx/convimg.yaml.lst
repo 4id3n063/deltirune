@@ -10,4 +10,16 @@ multifloor.h
 multifloor.c
 placeholder.h
 placeholder.c
+kriswalk_down1.h
+kriswalk_down1.c
+kriswalk_down2.h
+kriswalk_down2.c
+kriswalk_left1.h
+kriswalk_left1.c
+kriswalk_left2.h
+kriswalk_left2.c
+kriswalk_up1.h
+kriswalk_up1.c
+kriswalk_up2.h
+kriswalk_up2.c
 gfx.h
