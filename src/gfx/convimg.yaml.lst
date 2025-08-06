@@ -4,4 +4,10 @@ spamton.h
 spamton.c
 dialogue.h
 dialogue.c
+wall.h
+wall.c
+multifloor.h
+multifloor.c
+placeholder.h
+placeholder.c
 gfx.h

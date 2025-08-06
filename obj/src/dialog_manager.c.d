@@ -1,6 +1,7 @@
-obj/src/main.c.bc: src/main.c /home/aiden/cedevbin/include/tice.h \
-  /home/aiden/cedevbin/include/sys/basicusb.h \
+obj/src/dialog_manager.c.bc: src/dialog_manager.c src/dialog_manager.h \
   /home/aiden/cedevbin/include/stdbool.h \
+  /home/aiden/cedevbin/include/tice.h \
+  /home/aiden/cedevbin/include/sys/basicusb.h \
   /home/aiden/cedevbin/include/stdint.h \
   /home/aiden/cedevbin/include/cdefs.h \
   /home/aiden/cedevbin/include/sys/lcd.h \
@@ -22,8 +23,7 @@ obj/src/main.c.bc: src/main.c /home/aiden/cedevbin/include/tice.h \
   /home/aiden/cedevbin/include/ti/tokens.h \
   /home/aiden/cedevbin/include/ti/vars.h \
   /home/aiden/cedevbin/include/graphx.h \
-  /home/aiden/cedevbin/include/stdlib.h \
-  /home/aiden/cedevbin/include/keypadc.h src/gfx/gfx.h \
+  /home/aiden/cedevbin/include/stdlib.h src/gfx/gfx.h \
   src/gfx/global_palette.h src/gfx/spamton.h src/gfx/dialogue.h \
   src/gfx/wall.h src/gfx/multifloor.h src/gfx/placeholder.h \
-  src/dialog_manager.h
+  /home/aiden/cedevbin/include/keypadc.h

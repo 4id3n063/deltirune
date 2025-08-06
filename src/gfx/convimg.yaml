@@ -12,7 +12,9 @@ converts:
     images:
       - spamton.png
       - dialogue.png
-
+      - wall.png
+      - multifloor.png
+      - placeholder
 
 outputs:
   - type: c

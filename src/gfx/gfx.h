@@ -9,6 +9,9 @@ extern "C" {
 #define sprites_palette_offset 0
 #include "spamton.h"
 #include "dialogue.h"
+#include "wall.h"
+#include "multifloor.h"
+#include "placeholder.h"
 
 #ifdef __cplusplus
 }

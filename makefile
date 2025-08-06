@@ -2,10 +2,10 @@
 # Makefile Options
 # ----------------------------
 
-NAME = TESTPROG
+NAME = DELT
 ICON = icon.png
-DESCRIPTION = "Aiden's Test Program"
-COMPRESSED = NO
+DESCRIPTION = "DELTIRUNE"
+COMPRESSED = YES
 ARCHIVED = YES
 
 
