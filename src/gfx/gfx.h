@@ -21,7 +21,7 @@ extern "C" {
 #include "spamtonsad.h"
 #define tileset_palette_offset 0
 #include "tileset.h"
-
+extern unsigned char tilemap_map[];
 #ifdef __cplusplus
 }
 #endif

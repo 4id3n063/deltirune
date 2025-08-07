@@ -10,6 +10,7 @@
 #include "debug.h"
 
 
+
 const char *spamtonDialog[] = {
     "HELLO AGAIN OLD FRIEND.\n NICE TO SEE YOU AGAIN.",
     "I SEE YOU'RE ESCAPING REALITY \n AGAIN. TRYING TO FIND \n GOLD INSIDE BRICKS...",
