@@ -18,6 +18,7 @@ extern "C" {
 #include "kriswalk_left2.h"
 #include "kriswalk_up1.h"
 #include "kriswalk_up2.h"
+#include "spamtonsad.h"
 
 #ifdef __cplusplus
 }

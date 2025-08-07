@@ -21,6 +21,7 @@ converts:
       - kriswalk_left2.png
       - kriswalk_up1.png
       - kriswalk_up2.png
+      - spamtonsad.png
 
 outputs:
   - type: c

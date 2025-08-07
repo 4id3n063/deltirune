@@ -10,12 +10,13 @@
 
 const char *spamtonDialog[] = {
     "HELLO AGAIN OLD FRIEND.\n NICE TO SEE YOU AGAIN.",
-    "ARE YOU FEELING OKAY?\nYOU KNOW YOU CAN ALWAYS\nTURN OFF THE GAME.",
+    "I SEE YOU'RE ESCAPING REALITY \n AGAIN. TRYING TO FIND \n GOLD INSIDE BRICKS...",
+    ":sad ARE YOU FEELING OKAY?\nYOU KNOW YOU CAN ALWAYS\nTURN OFF THE GAME.",
     "BUT WE BOTH KNOW...",
     ".",
     ".",
     "THAT YOU'RE STILL TRAPPED\n INSIDE OF YOUR OWN WALLS.",
-    "AREN'T YOU? ;)"
+    "AREN'T YOU?"
 };
 const char *NPC1Dialog[] = {
     "IS THAT ALL THERE IS?",
@@ -67,7 +68,7 @@ int main(void) {
                 (player.y + PLAYER_HEIGHT) > spamtonY;
 
             if (touchingSpamton && now2nd) {
-                dialog_start(spamtonDialog, 7);
+                dialog_start(spamtonDialog, 8);
             }
         } else {
             dialog_update(now2nd);
@@ -76,7 +77,14 @@ int main(void) {
 
         gfx_FillScreen(10);
         player_draw(&player);
-        gfx_TransparentSprite(spamton, spamtonX, spamtonY);
+
+        if (emotion == SAD) {
+            gfx_TransparentSprite(spamtonsad, spamtonX, spamtonY);
+        } else if (emotion == SMILE) {
+            gfx_TransparentSprite(spamton, spamtonX, spamtonY);
+        }
+
+
         gfx_TransparentSprite(placeholder, NPC1X, NPC1Y);
 
         if (dialog_is_active()) {
