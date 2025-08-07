@@ -19,6 +19,8 @@ extern "C" {
 #include "kriswalk_up1.h"
 #include "kriswalk_up2.h"
 #include "spamtonsad.h"
+#define tileset_palette_offset 0
+#include "tileset.h"
 
 #ifdef __cplusplus
 }

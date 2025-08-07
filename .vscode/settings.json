@@ -59,6 +59,8 @@
   "files.associations": {
     "graphx.h": "c",
     "multifloor.h": "c",
-    "tilemap.h": "c"
+    "tilemap.h": "c",
+    "player.h": "c",
+    "random": "c"
   }
 }

@@ -12,12 +12,13 @@ void player_init(Player *player, int startX, int startY) {
     player->isMovingRight = false;
     player->isMovingUp = false;
     player->isMovingDown = false;
+    
 }
 
 void player_update(Player *player, bool isAlphaPressed, bool isLeftPressed, bool isRightPressed, bool isUpPressed, bool isDownPressed) {
     int speed = isAlphaPressed ? 2 : 1;
 
-
+    
     player->isMovingLeft = false;
     player->isMovingRight = false;
     player->isMovingUp = false;
@@ -88,4 +89,5 @@ void player_draw(const Player *player) {
 
         gfx_TransparentSprite(kriswalk_down1, player->x, player->y);
     }
+    
 }

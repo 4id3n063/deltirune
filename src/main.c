@@ -97,7 +97,7 @@ int main(void) {
         gfx_SetTextFGColor(1);
         gfx_PrintString("DELTIRUNE V0.10 -- MADE BY AIDEN");
         fps_counter_update();
-
+        debug_draw_coordinates(&player);
 
         fps_counter_draw();
 

@@ -24,4 +24,6 @@ kriswalk_up2.h
 kriswalk_up2.c
 spamtonsad.h
 spamtonsad.c
+tileset.h
+tileset.c
 gfx.h

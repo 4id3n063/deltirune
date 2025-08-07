@@ -16,6 +16,8 @@ typedef struct {
     bool isMovingRight;    // Moving right
     bool isMovingUp;       // Moving up
     bool isMovingDown;     // Moving down
+
+
 } Player;
 
 void player_init(Player *player, int startX, int startY);

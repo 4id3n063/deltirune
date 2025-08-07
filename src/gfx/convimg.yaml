@@ -23,6 +23,15 @@ converts:
       - kriswalk_up2.png
       - spamtonsad.png
 
+converts:
+  - name: tileset
+    palette: global_palette
+    tilesets:
+      tile-width: 16
+      tile-height: 16
+      images:
+        - tileset.png
+
 outputs:
   - type: c
     include-file: gfx.h
@@ -30,4 +39,5 @@ outputs:
       - global_palette
     converts:
       - sprites
+      - tileset
 

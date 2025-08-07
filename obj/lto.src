@@ -115,6 +115,43 @@ _fps_counter_get_fps:
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
+	public	_debug_draw_coordinates
+_debug_draw_coordinates:
+	call	__frameset0
+	ld	hl, _.str.1
+	ld	de, 64
+	ld	bc, 4
+	push	bc
+	push	de
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix + 6)
+	ld	hl, (hl)
+	ld	de, 3
+	push	de
+	push	hl
+	call	_gfx_PrintInt
+	pop	hl
+	pop	hl
+	ld	hl, _.str.2
+	push	hl
+	call	_gfx_PrintString
+	pop	hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 3)
+	ld	de, 3
+	push	de
+	push	hl
+	call	_gfx_PrintInt
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
 	public	_dialog_init
 _dialog_init:
 	ld	iy, 0
@@ -158,12 +195,12 @@ _dialog_can_start:
 	add.sis	hl, bc
 	or	a, a
 	sbc.sis	hl, bc
-	jr	z, BB5_2
+	jr	z, BB6_2
 	ld	l, 0
-	jr	BB5_3
-BB5_2:
+	jr	BB6_3
+BB6_2:
 	ld	l, -1
-BB5_3:
+BB6_3:
 	and	a, l
 	ret
 	section	.text,"ax",@progbits
@@ -175,13 +212,13 @@ _dialog_start:
 	ld	de, 0
 	ld	a, (_active)
 	bit	0, a
-	jp	nz, BB6_3
+	jp	nz, BB7_3
 	ld	hl, _delayCounter
 	ld	hl, (hl)
 	add.sis	hl, bc
 	or	a, a
 	sbc.sis	hl, bc
-	jr	nz, BB6_3
+	jr	nz, BB7_3
 	ld	hl, (ix + 6)
 	ld	iy, (ix + 9)
 	ld.sis	bc, 0
@@ -204,7 +241,7 @@ _dialog_start:
 	inc	hl
 	ld	(hl), b
 	ld	(_emotion), de
-BB6_3:
+BB7_3:
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -221,13 +258,13 @@ _dialog_update:
 	ld	c, a
 	ld	a, (_active)
 	bit	0, a
-	jp	z, BB7_14
+	jp	z, BB8_14
 	ld	iy, _pageAdvanceCounter
 	ld	hl, (iy)
 	add.sis	hl, bc
 	or	a, a
 	sbc.sis	hl, bc
-	jp	nz, BB7_15
+	jp	nz, BB8_15
 	ld	(ix - 1), c
 	ld	hl, _charIndex
 	ld	de, (hl)
@@ -256,7 +293,7 @@ _dialog_update:
 	ld	hl, (ix - 7)
 	or	a, a
 	sbc	hl, de
-	jr	nc, BB7_5
+	jr	nc, BB8_5
 	ld.sis	de, 1
 	ld	hl, _charDelayCounter
 	lea	bc, iy
@@ -268,7 +305,7 @@ _dialog_update:
 	ld	(iy + 1), h
 	push	bc
 	pop	iy
-	jr	c, BB7_5
+	jr	c, BB8_5
 	ld	hl, (ix - 13)
 	inc.sis	hl
 	ld	(iy), l
@@ -279,7 +316,7 @@ _dialog_update:
 	ld	(iy + 1), h
 	push	bc
 	pop	iy
-BB7_5:
+BB8_5:
 	ld	de, (_totalPages)
 	ld	hl, (ix - 4)
 	or	a, a
@@ -287,12 +324,12 @@ BB7_5:
 	call	pe, __setflag
 	ld	e, (ix - 1)
 	ld	d, (ix + 6)
-	jp	p, BB7_18
+	jp	p, BB8_18
 	ld	hl, (ix - 10)
-BB7_7:
+BB8_7:
 	ld	a, (hl)
 	or	a, a
-	jp	z, BB7_18
+	jp	z, BB8_18
 	ld	(ix - 4), hl
 	ld	hl, (ix - 4)
 	ld	bc, (ix - 10)
@@ -308,11 +345,11 @@ BB7_7:
 	sbc	hl, bc
 	ld	hl, (ix - 4)
 	call	pe, __setflag
-	jp	p, BB7_18
+	jp	p, BB8_18
 	ex	de, hl
 	ld	hl, 4
 	push	hl
-	ld	hl, _.str.1
+	ld	hl, _.str.3
 	push	hl
 	push	de
 	call	_strncmp
@@ -324,10 +361,10 @@ BB7_7:
 	sbc	hl, bc
 	ld	hl, 1
 	ld	de, 3
-	jr	z, BB7_11
+	jr	z, BB8_11
 	ld	hl, 6
 	push	hl
-	ld	hl, _.str.1.2
+	ld	hl, _.str.1.4
 	push	hl
 	ld	hl, (ix - 4)
 	push	hl
@@ -340,43 +377,43 @@ BB7_7:
 	sbc	hl, bc
 	ld	hl, 0
 	ld	de, 5
-	jr	nz, BB7_12
-BB7_11:
+	jr	nz, BB8_12
+BB8_11:
 	ld	(_emotion), hl
 	ld	hl, (ix - 4)
 	add	hl, de
-	jr	BB7_13
-BB7_12:
+	jr	BB8_13
+BB8_12:
 	ld	hl, (ix - 4)
-BB7_13:
+BB8_13:
 	inc	hl
 	ld	e, (ix - 1)
 	ld	iy, _charIndex
 	ld	d, (ix + 6)
-	jp	BB7_7
-BB7_14:
+	jp	BB8_7
+BB8_14:
 	ld	hl, (iy)
 	add.sis	hl, bc
 	or	a, a
 	sbc.sis	hl, bc
-	jr	nz, BB7_16
-	jr	BB7_17
-BB7_15:
+	jr	nz, BB8_16
+	jr	BB8_17
+BB8_15:
 	ld	e, 1
-BB7_16:
+BB8_16:
 	dec.sis	hl
 	ld	(iy), l
 	ld	(iy + 1), h
-BB7_17:
+BB8_17:
 	ld	a, c
 	ld	(_last2nd), a
-	jp	BB7_28
-BB7_18:
+	jp	BB8_28
+BB8_18:
 	ld	a, (_last2nd)
 	bit	0, d
-	jp	z, BB7_27
+	jp	z, BB8_27
 	or	a, a
-	jp	nz, BB7_27
+	jp	nz, BB8_27
 	ld	hl, (iy)
 	ld	de, 0
 	ld	e, l
@@ -399,13 +436,13 @@ BB7_18:
 	ld	hl, (ix - 4)
 	or	a, a
 	sbc	hl, de
-	jr	nc, BB7_22
+	jr	nc, BB8_22
 	ld	hl, _charIndex
 	ld	(hl), e
 	inc	hl
 	ld	(hl), d
-	jr	BB7_26
-BB7_22:
+	jr	BB8_26
+BB8_22:
 	ld	bc, _charIndex
 	ld	hl, (ix - 7)
 	inc	hl
@@ -414,7 +451,7 @@ BB7_22:
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jp	p, BB7_24
+	jp	p, BB8_24
 	ld.sis	hl, 10
 	ld	iy, _pageAdvanceCounter
 	ld	(iy), l
@@ -428,27 +465,27 @@ BB7_22:
 	inc	hl
 	ld	(hl), d
 	ld	hl, _charDelayCounter
-	jr	BB7_25
-BB7_24:
+	jr	BB8_25
+BB8_24:
 	ld.sis	de, 20
 	xor	a, a
 	ld	(_active), a
 	ld	hl, _delayCounter
-BB7_25:
+BB8_25:
 	ld	(hl), e
 	inc	hl
 	ld	(hl), d
 	or	a, a
 	sbc	hl, hl
 	ld	(_emotion), hl
-BB7_26:
+BB8_26:
 	ld	e, (ix - 1)
-BB7_27:
+BB8_27:
 	ld	a, e
 	ld	(_last2nd), a
 	ld	a, (_active)
 	ld	e, a
-BB7_28:
+BB8_28:
 	ld	a, e
 	ld	sp, ix
 	pop	ix
@@ -462,19 +499,19 @@ _dialog_draw:
 	call	__frameset
 	ld	a, (_active)
 	bit	0, a
-	jp	z, BB8_16
+	jp	z, BB9_16
 	ld	hl, (_currentPage)
 	ld	bc, (_totalPages)
 	ld	de, (_pages)
 	or	a, a
 	sbc	hl, bc
 	call	pe, __setflag
-	jp	p, BB8_16
+	jp	p, BB9_16
 	ex	de, hl
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jp	z, BB8_16
+	jp	z, BB9_16
 	ld	hl, 1
 	push	hl
 	call	_gfx_SetTextFGColor
@@ -506,12 +543,12 @@ _dialog_draw:
 	add	iy, de
 	ld	hl, (iy)
 	ld	iy, 0
-BB8_4:
+BB9_4:
 	ld	(ix - 3), hl
 	ld	e, (hl)
 	ld	a, e
 	or	a, a
-	jp	z, BB8_16
+	jp	z, BB9_16
 	ld	hl, _charIndex
 	ld	hl, (hl)
 	ld	bc, 0
@@ -520,11 +557,11 @@ BB8_4:
 	lea	hl, iy
 	or	a, a
 	sbc	hl, bc
-	jp	nc, BB8_16
+	jp	nc, BB9_16
 	ld	(ix - 9), iy
 	ld	a, e
 	cp	a, 10
-	jr	nz, BB8_8
+	jr	nz, BB9_8
 	ld	hl, (ix - 6)
 	ld	de, 10
 	add	hl, de
@@ -534,11 +571,11 @@ BB8_4:
 	push	hl
 	call	_gfx_SetTextXY
 	pop	hl
-	jr	BB8_14
-BB8_8:
+	jr	BB9_14
+BB9_8:
 	ld	hl, 4
 	push	hl
-	ld	hl, _.str.1
+	ld	hl, _.str.3
 	push	hl
 	ld	hl, (ix - 3)
 	push	hl
@@ -549,14 +586,14 @@ BB8_8:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jr	nz, BB8_10
+	jr	nz, BB9_10
 	ld	iy, (ix - 3)
 	lea	iy, iy + 3
-	jr	BB8_12
-BB8_10:
+	jr	BB9_12
+BB9_10:
 	ld	hl, 6
 	push	hl
-	ld	hl, _.str.1.2
+	ld	hl, _.str.1.4
 	push	hl
 	ld	hl, (ix - 3)
 	push	hl
@@ -567,26 +604,26 @@ BB8_10:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jr	nz, BB8_13
+	jr	nz, BB9_13
 	ld	iy, (ix - 3)
 	lea	iy, iy + 5
-BB8_12:
+BB9_12:
 	lea	hl, iy
-	jr	BB8_15
-BB8_13:
+	jr	BB9_15
+BB9_13:
 	ld	hl, (ix - 3)
 	ld	l, (hl)
 	push	hl
 	call	_gfx_PrintChar
-BB8_14:
+BB9_14:
 	pop	hl
 	ld	hl, (ix - 3)
-BB8_15:
+BB9_15:
 	inc	hl
 	ld	iy, (ix - 9)
 	inc	iy
-	jp	BB8_4
-BB8_16:
+	jp	BB9_4
+BB9_16:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -607,10 +644,10 @@ _dialog_is_in_delay:
 	add.sis	hl, bc
 	or	a, a
 	sbc.sis	hl, bc
-	jr	nz, BB10_2
+	jr	nz, BB11_2
 	ld	a, 0
 	ret
-BB10_2:
+BB11_2:
 	ld	a, -1
 	ret
 	section	.text,"ax",@progbits
@@ -650,7 +687,7 @@ _main:
 	pop	hl
 	pop	hl
 	pop	hl
-BB11_1:
+BB12_1:
 	ld	hl, -720868
 	push	de
 	ld	e, (hl)
@@ -661,7 +698,7 @@ BB11_1:
 	pop	de
 	ld	a, l
 	bit	6, a
-	jp	nz, BB11_35
+	jp	nz, BB12_35
 	call	_kb_Scan
 	ld	hl, -720878
 	push	de
@@ -677,25 +714,25 @@ BB11_1:
 	ld	d, h
 	ld	a, (_active)
 	bit	0, a
-	jp	nz, BB11_4
+	jp	nz, BB12_4
 	ld	hl, _delayCounter
 	ld	hl, (hl)
 	add.sis	hl, bc
 	or	a, a
 	sbc.sis	hl, bc
-	jp	z, BB11_13
-BB11_4:
+	jp	z, BB12_13
+BB12_4:
 	ld	a, e
 	or	a, a
 	ld	hl, -1
-	jr	nz, BB11_6
+	jr	nz, BB12_6
 	ld	hl, 0
-BB11_6:
+BB12_6:
 	push	hl
 	call	_dialog_update
-BB11_7:
+BB12_7:
 	pop	hl
-BB11_8:
+BB12_8:
 	ld	hl, 10
 	push	hl
 	call	_gfx_FillScreen
@@ -708,16 +745,16 @@ BB11_8:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jr	nz, BB11_10
+	jr	nz, BB12_10
 	ld	hl, _spamton_data
-	jr	BB11_11
-BB11_10:
+	jr	BB12_11
+BB12_10:
 	ld	de, 1
 	or	a, a
 	sbc	hl, de
 	ld	hl, _spamtonsad_data
-	jr	nz, BB11_12
-BB11_11:
+	jr	nz, BB12_12
+BB12_11:
 	ld	de, 10
 	push	de
 	push	de
@@ -726,7 +763,7 @@ BB11_11:
 	pop	hl
 	pop	hl
 	pop	hl
-BB11_12:
+BB12_12:
 	ld	hl, 60
 	push	hl
 	push	hl
@@ -754,10 +791,14 @@ BB11_12:
 	call	_gfx_PrintString
 	pop	hl
 	call	_fps_counter_update
+	ld	hl, (ix - 18)
+	push	hl
+	call	_debug_draw_coordinates
+	pop	hl
 	call	_fps_counter_draw
 	call	_gfx_SwapDraw
-	jp	BB11_1
-BB11_13:
+	jp	BB12_1
+BB12_13:
 	ld	(ix - 27), de
 	ld	hl, -720876
 	push	de
@@ -786,35 +827,35 @@ BB11_13:
 	ld	bc, -1
 	push	bc
 	pop	hl
-	jr	nz, BB11_15
+	jr	nz, BB12_15
 	ld	hl, 0
-BB11_15:
+BB12_15:
 	ld	a, e
 	push	hl
 	bit	2, a
 	push	bc
 	pop	hl
-	jr	nz, BB11_17
+	jr	nz, BB12_17
 	ld	hl, 0
-BB11_17:
+BB12_17:
 	ld	de, (ix - 24)
 	ld	a, e
 	push	hl
 	bit	1, a
 	push	bc
 	pop	hl
-	jr	nz, BB11_19
+	jr	nz, BB12_19
 	ld	hl, 0
-BB11_19:
+BB12_19:
 	ld	de, (ix - 21)
 	ld	a, e
 	push	hl
 	bit	7, a
 	push	bc
 	pop	hl
-	jr	nz, BB11_21
+	jr	nz, BB12_21
 	ld	hl, 0
-BB11_21:
+BB12_21:
 	push	hl
 	ld	hl, (ix - 18)
 	push	hl
@@ -832,14 +873,14 @@ BB11_21:
 	or	a, a
 	sbc	hl, bc
 	call	pe, __setflag
-	jp	p, BB11_8
+	jp	p, BB12_8
 	ld	hl, (ix - 27)
 	ld	a, l
 	or	a, a
 	ld	a, -1
-	jr	z, BB11_24
+	jr	z, BB12_24
 	ld	a, 0
-BB11_24:
+BB12_24:
 	ld	iy, (ix - 12)
 	push	de
 	pop	hl
@@ -847,64 +888,64 @@ BB11_24:
 	or	a, a
 	sbc	hl, bc
 	call	pe, __setflag
-	jp	m, BB11_28
+	jp	m, BB12_28
 	lea	hl, iy
 	ld	bc, 80
 	or	a, a
 	sbc	hl, bc
 	call	pe, __setflag
-	jp	p, BB11_28
+	jp	p, BB12_28
 	lea	hl, iy
 	ld	bc, 41
 	or	a, a
 	sbc	hl, bc
 	call	pe, __setflag
-	jp	m, BB11_28
+	jp	m, BB12_28
 	bit	0, a
-	jr	z, BB11_33
-BB11_28:
+	jr	z, BB12_33
+BB12_28:
 	push	de
 	pop	hl
 	ld	bc, 30
 	or	a, a
 	sbc	hl, bc
 	call	pe, __setflag
-	jp	p, BB11_8
+	jp	p, BB12_8
 	ex	de, hl
 	ld	de, -9
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jp	m, BB11_8
+	jp	m, BB12_8
 	lea	hl, iy
 	ld	de, 30
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jp	p, BB11_8
+	jp	p, BB12_8
 	lea	hl, iy
 	ld	de, -9
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jp	m, BB11_8
+	jp	m, BB12_8
 	bit	0, a
 	ld	hl, 8
 	push	hl
 	ld	hl, _spamtonDialog
 	push	hl
 	call	z, _dialog_start
-	jr	BB11_34
-BB11_33:
+	jr	BB12_34
+BB12_33:
 	ld	hl, 2
 	push	hl
 	ld	hl, _NPC1Dialog
 	push	hl
 	call	_dialog_start
-BB11_34:
+BB12_34:
 	pop	hl
-	jp	BB11_7
-BB11_35:
+	jp	BB12_7
+BB12_35:
 	call	_gfx_End
 	or	a, a
 	sbc	hl, hl
@@ -943,54 +984,54 @@ _player_update:
 	or	a, a
 	sbc	hl, hl
 	bit	0, (ix + 9)
-	jr	nz, BB13_2
+	jr	nz, BB14_2
 	ld	de, 1
-	jr	BB13_3
-BB13_2:
+	jr	BB14_3
+BB14_2:
 	ld	de, 2
-BB13_3:
+BB14_3:
 	ld	(iy + 11), hl
 	ld	(iy + 14), 0
 	bit	0, a
-	jr	z, BB13_5
+	jr	z, BB14_5
 	ld	hl, (iy)
 	or	a, a
 	sbc	hl, de
 	ld	(iy), hl
 	ld	(iy + 11), 1
-BB13_5:
+BB14_5:
 	ld	b, (ix + 18)
 	bit	0, (ix + 15)
-	jr	z, BB13_7
+	jr	z, BB14_7
 	ld	hl, (iy)
 	add	hl, de
 	ld	(iy), hl
 	ld	(iy + 12), 1
-BB13_7:
+BB14_7:
 	ld	c, (ix + 21)
 	bit	0, b
-	jr	z, BB13_9
+	jr	z, BB14_9
 	ld	hl, (iy + 3)
 	or	a, a
 	sbc	hl, de
 	ld	(iy + 3), hl
 	ld	(iy + 13), 1
-BB13_9:
+BB14_9:
 	bit	0, c
-	jr	z, BB13_11
+	jr	z, BB14_11
 	ld	hl, (iy + 3)
 	add	hl, de
 	ld	(iy + 3), hl
 	ld	(iy + 14), 1
-	jr	BB13_14
-BB13_11:
+	jr	BB14_14
+BB14_11:
 	bit	0, a
-	jr	nz, BB13_14
+	jr	nz, BB14_14
 	bit	0, (ix + 15)
-	jr	nz, BB13_14
+	jr	nz, BB14_14
 	bit	0, b
-	jr	z, BB13_20
-BB13_14:
+	jr	z, BB14_20
+BB14_14:
 	call	_clock
 	ld	iy, (ix + 6)
 	push	hl
@@ -1012,26 +1053,26 @@ BB13_14:
 	ld	hl, 249
 	ld	e, h
 	call	__lcmpu
-	jr	nc, BB13_19
+	jr	nc, BB14_19
 	ld	a, (iy + 6)
 	or	a, a
-	jr	z, BB13_17
+	jr	z, BB14_17
 	ld	a, 0
-	jr	BB13_18
-BB13_17:
+	jr	BB14_18
+BB14_17:
 	ld	a, 1
-BB13_18:
+BB14_18:
 	ld	(iy + 6), a
 	ld	hl, (ix - 3)
 	ld	(iy + 7), hl
 	ld	(iy + 10), d
-BB13_19:
+BB14_19:
 	pop	hl
 	pop	ix
 	ret
-BB13_20:
+BB14_20:
 	ld	(iy + 6), 0
-	jr	BB13_19
+	jr	BB14_19
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
@@ -1042,29 +1083,29 @@ _player_draw:
 	ld	iy, (ix + 6)
 	ld	bc, _kriswalk_left1_data
 	bit	0, (iy + 11)
-	jr	nz, BB14_5
+	jr	nz, BB15_5
 	bit	0, (iy + 12)
-	jr	nz, BB14_7
+	jr	nz, BB15_7
 	bit	0, (iy + 13)
-	jp	nz, BB14_12
+	jp	nz, BB15_12
 	ld	hl, _kriswalk_down1_data
 	bit	0, (iy + 14)
-	jp	nz, BB14_14
+	jp	nz, BB15_14
 	ld	de, (iy)
 	ld	bc, (iy + 3)
-	jp	BB14_16
-BB14_5:
+	jp	BB15_16
+BB15_5:
 	ld	hl, (iy)
 	ld	de, (iy + 3)
 	ld	a, (iy + 6)
 	or	a, a
-	jr	nz, BB14_11
-BB14_6:
+	jr	nz, BB15_11
+BB15_6:
 	push	de
 	push	hl
 	push	bc
-	jp	BB14_18
-BB14_7:
+	jp	BB15_18
+BB15_7:
 	ld	hl, _malloc
 	push	hl
 	ld	hl, 16
@@ -1081,16 +1122,16 @@ BB14_7:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jr	z, BB14_20
+	jr	z, BB15_20
 	ld	hl, (ix + 6)
 	push	hl
 	pop	iy
 	ld	a, (iy + 6)
 	or	a, a
 	ld	hl, _kriswalk_left1_data
-	jr	z, BB14_10
+	jr	z, BB15_10
 	ld	hl, _kriswalk_left2_data
-BB14_10:
+BB15_10:
 	push	de
 	push	hl
 	ld	(ix - 3), de
@@ -1113,45 +1154,45 @@ BB14_10:
 	ld	hl, (ix - 3)
 	push	hl
 	call	_free
-	jr	BB14_19
-BB14_11:
+	jr	BB15_19
+BB15_11:
 	push	de
 	push	hl
 	ld	hl, _kriswalk_left2_data
-	jr	BB14_17
-BB14_12:
+	jr	BB15_17
+BB15_12:
 	ld	hl, (iy)
 	ld	de, (iy + 3)
 	ld	a, (iy + 6)
 	or	a, a
-	jr	nz, BB14_21
+	jr	nz, BB15_21
 	ld	bc, _kriswalk_up1_data
-	jr	BB14_6
-BB14_14:
+	jr	BB15_6
+BB15_14:
 	ld	de, (iy)
 	ld	bc, (iy + 3)
 	ld	a, (iy + 6)
 	or	a, a
-	jr	z, BB14_16
+	jr	z, BB15_16
 	ld	hl, _kriswalk_down2_data
-BB14_16:
+BB15_16:
 	push	bc
 	push	de
-BB14_17:
+BB15_17:
 	push	hl
-BB14_18:
+BB15_18:
 	call	_gfx_TransparentSprite
 	pop	hl
 	pop	hl
-BB14_19:
+BB15_19:
 	pop	hl
-BB14_20:
+BB15_20:
 	pop	hl
 	pop	ix
 	ret
-BB14_21:
+BB15_21:
 	ld	bc, _kriswalk_up2_data
-	jp	BB14_6
+	jp	BB15_6
 	section	.text,"ax",@progbits
 
 	section	.bss,"aw",@nobits
@@ -1173,6 +1214,16 @@ _fps:
 	private	_.str
 _.str:
 	db	"%lu FPS", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.1
+_.str.1:
+	db	"x:", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.2
+_.str.2:
+	db	" y:", 0
 
 	section	.bss,"aw",@nobits
 	private	_active
@@ -1220,13 +1271,13 @@ _charDelayCounter:
 	rb	2
 
 	section	.rodata,"a",@progbits
-	private	_.str.1
-_.str.1:
+	private	_.str.3
+_.str.3:
 	db	":sad", 0
 
 	section	.rodata,"a",@progbits
-	private	_.str.1.2
-_.str.1.2:
+	private	_.str.1.4
+_.str.1.4:
 	db	":happy", 0
 
 	section	.data,"aw",@progbits
@@ -1245,23 +1296,23 @@ _wall_data:
 	db	"))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))((((((((((((((((((((............................................................&&&&&&&&&&&&&&&&&&&&"
 
 	section	.rodata,"a",@progbits
-	private	_.str.5
-_.str.5:
+	private	_.str.7
+_.str.7:
 	db	"HELLO AGAIN OLD FRIEND.", 10, " NICE TO SEE YOU AGAIN.", 0
 
 	section	.rodata,"a",@progbits
-	private	_.str.1.6
-_.str.1.6:
+	private	_.str.1.8
+_.str.1.8:
 	db	"I SEE YOU'RE ESCAPING REALITY ", 10, " AGAIN. TRYING TO FIND ", 10, " GOLD INSIDE BRICKS...", 0
 
 	section	.rodata,"a",@progbits
-	private	_.str.2
-_.str.2:
+	private	_.str.2.9
+_.str.2.9:
 	db	":sad ARE YOU FEELING OKAY?", 10, "YOU KNOW YOU CAN ALWAYS", 10, "TURN OFF THE GAME.", 0
 
 	section	.rodata,"a",@progbits
-	private	_.str.3
-_.str.3:
+	private	_.str.3.10
+_.str.3.10:
 	db	"BUT WE BOTH KNOW...", 0
 
 	section	.rodata,"a",@progbits
@@ -1270,8 +1321,8 @@ _.str.4:
 	db	".", 0
 
 	section	.rodata,"a",@progbits
-	private	_.str.5.7
-_.str.5.7:
+	private	_.str.5
+_.str.5:
 	db	"THAT YOU'RE STILL TRAPPED", 10, " INSIDE OF YOUR OWN WALLS.", 0
 
 	section	.rodata,"a",@progbits
@@ -1282,18 +1333,18 @@ _.str.6:
 	section	.data,"aw",@progbits
 	public	_spamtonDialog
 _spamtonDialog:
+	dl	_.str.7
+	dl	_.str.1.8
+	dl	_.str.2.9
+	dl	_.str.3.10
+	dl	_.str.4
+	dl	_.str.4
 	dl	_.str.5
-	dl	_.str.1.6
-	dl	_.str.2
-	dl	_.str.3
-	dl	_.str.4
-	dl	_.str.4
-	dl	_.str.5.7
 	dl	_.str.6
 
 	section	.rodata,"a",@progbits
-	private	_.str.7
-_.str.7:
+	private	_.str.7.11
+_.str.7.11:
 	db	"IS THAT ALL THERE IS?", 0
 
 	section	.rodata,"a",@progbits
@@ -1304,7 +1355,7 @@ _.str.8:
 	section	.data,"aw",@progbits
 	public	_NPC1Dialog
 _NPC1Dialog:
-	dl	_.str.7
+	dl	_.str.7.11
 	dl	_.str.8
 
 	section	.data,"aw",@progbits
@@ -1397,6 +1448,7 @@ _kriswalk_down2_data:
 	extern	_gfx_PrintString
 	extern	__ladd
 	extern	_strlen
+	extern	_gfx_PrintInt
 	extern	__setflag
 	extern	_gfx_AllocSprite
 	extern	_free
@@ -1411,10 +1463,11 @@ _kriswalk_down2_data:
 	extern	_gfx_FillScreen
 	extern	__Unwind_SjLj_Unregister
 	extern	__imulu
+	extern	_gfx_PrintStringXY
 	extern	_gfx_End
 	extern	__lcmpu
-	extern	__frameset0
 	extern	_gfx_SetTextXY
+	extern	__frameset0
 	extern	_clock
-	extern	_gfx_TransparentSprite
 	extern	_strncmp
+	extern	_gfx_TransparentSprite
