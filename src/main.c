@@ -7,6 +7,8 @@
 #include "dialog_manager.h"
 #include "player.h" 
 #include <time.h>
+#include "debug.h"
+
 
 const char *spamtonDialog[] = {
     "HELLO AGAIN OLD FRIEND.\n NICE TO SEE YOU AGAIN.",
@@ -94,8 +96,10 @@ int main(void) {
         gfx_SetTextXY(10, 10);
         gfx_SetTextFGColor(1);
         gfx_PrintString("DELTIRUNE V0.10 -- MADE BY AIDEN");
-        gfx_SetTextXY(10, 20);
-        gfx_PrintString("TEST SCREEN ONE");
+        fps_counter_update();
+
+
+        fps_counter_draw();
 
         gfx_SwapDraw();
     }
